@@ -14,12 +14,14 @@ export default class Suggestions extends PureComponent {
 		),
 		onClick: PropTypes.func,
 		focused: PropTypes.number,
+		autoShowSuggestions: PropTypes.bool,
 	}
 
 	static defaultProps = {
 		className: '',
 		suggestions: [],
-		onClick: ()=>{}
+		onClick: ()=>{},
+		autoShowSuggestions: true,
 	}
 
 	constructor(props){
@@ -27,10 +29,10 @@ export default class Suggestions extends PureComponent {
 	}
 
 	render() {
-		const { className, suggestions } = this.props
+		const { className, suggestions, autoShowSuggestions, value } = this.props
 
 		//Loader?
-		if(!suggestions || !suggestions.length) return null
+		if(!suggestions || !suggestions.length || (!autoShowSuggestions && value == '')) return null
 
 		return (
 			<div className={`${styles.dropdown} ${className}`}>

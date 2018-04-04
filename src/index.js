@@ -39,6 +39,7 @@ export default class Autocomplete extends Component {
 		loaderPosition: PropTypes.oneOf(['top', 'bottom']),
 		children: PropTypes.node,
 		saveOnBlur: PropTypes.bool,
+		autoShowSuggestions: PropTypes.bool,
 		onKeyUp: PropTypes.func,
 		onKeyDown: PropTypes.func,
 		onAdd: PropTypes.func,
@@ -60,6 +61,7 @@ export default class Autocomplete extends Component {
 		enterKeys: [],
 		children: <input />,
 		saveOnBlur: false,
+		autoShowSuggestions: true,
 		onKeyUp: ()=>{},
 		onKeyDown: ()=>{},
 		onAdd: ()=>{},
@@ -113,7 +115,7 @@ export default class Autocomplete extends Component {
 	}
 
 	render() {
-		const { className, children, onKeyUp, customLoader, loaderPosition, loader } = this.props
+		const { className, children, onKeyUp, customLoader, loaderPosition, loader, autoShowSuggestions } = this.props
 		const { tags, value, suggestions, focusedSuggestion, input } = this.state
 		return (
 			<div>
@@ -140,7 +142,7 @@ export default class Autocomplete extends Component {
 									value={value}
 								/>
 							</div>
-							<Suggestions suggestions={suggestions} onClick={this.onClickSuggestion} focused={focusedSuggestion} />
+							<Suggestions suggestions={suggestions} onClick={this.onClickSuggestion} focused={focusedSuggestion} autoShowSuggestions={autoShowSuggestions} value={value} />
 						</div>
 						{loader && loaderPosition === 'bottom' && customLoader}
 					</div>
