@@ -65,7 +65,7 @@ export default class Autocomplete extends Component {
 		// 		`a` is the label property of first suggestion (string)
 		// 		`b` is the label property of second suggestion (string)
 		// if function evaluates to true, then `a` is shown before `b`
-		sortSuggestion: ()=>true,
+		sortSuggestion: ()=>false,
 		onKeyUp: ()=>{},
 		onKeyDown: ()=>{},
 		onAdd: ()=>{},
