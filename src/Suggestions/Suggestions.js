@@ -2,10 +2,19 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import styles from './theme.css'
 
+const TAG_SHAPE = PropTypes.shape({
+	label: PropTypes.string.isRequired,
+	value: PropTypes.string.isRequired,
+})
+
 export default class Suggestions extends PureComponent {
 
 	static propTypes = {
 		className: PropTypes.string,
+		tags: PropTypes.oneOfType([
+			PropTypes.arrayOf(TAG_SHAPE),
+			PropTypes.arrayOf(PropTypes.string)
+		]),
 		suggestions: PropTypes.arrayOf(
 			PropTypes.shape({
 				label: PropTypes.string.isRequired,
@@ -14,12 +23,17 @@ export default class Suggestions extends PureComponent {
 		),
 		onClick: PropTypes.func,
 		focused: PropTypes.number,
+		filterSuggestion: PropTypes.func,
+		value: PropTypes.string,
 	}
 
 	static defaultProps = {
 		className: '',
+		tags: [],
 		suggestions: [],
-		onClick: ()=>{}
+		onClick: ()=>{},
+		filterSuggestion: ()=>true,
+		value: '',
 	}
 
 	constructor(props){
@@ -27,21 +41,28 @@ export default class Suggestions extends PureComponent {
 	}
 
 	render() {
-		const { className, suggestions } = this.props
+		const { className, suggestions, filterSuggestion, tags, value } = this.props
 
 		//Loader?
 		if(!suggestions || !suggestions.length) return null
 
+		//Filter suggestions
+		const filteredSuggestions = suggestions.filter(sugg => {
+			if(filterSuggestion(value, sugg.label, tags)) {
+				return true
+			}
+		})
+
 		return (
 			<div className={`${styles.dropdown} ${className}`}>
 				<ul className={styles.suggestions}>
-					{this._renderSuggestions(suggestions)}
+					{this._renderSuggestions(filteredSuggestions)}
 				</ul>
 			</div>
 		)
 	}
 
-	_renderSuggestions = suggestions => {
+	_renderSuggestions = (suggestions) => {
 		return (
 			suggestions.map(({label}, idx) => {
 				return (

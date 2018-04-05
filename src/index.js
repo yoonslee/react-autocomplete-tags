@@ -39,6 +39,7 @@ export default class Autocomplete extends Component {
 		loaderPosition: PropTypes.oneOf(['top', 'bottom']),
 		children: PropTypes.node,
 		saveOnBlur: PropTypes.bool,
+		filterSuggestion: PropTypes.func,
 		onKeyUp: PropTypes.func,
 		onKeyDown: PropTypes.func,
 		onAdd: PropTypes.func,
@@ -60,6 +61,12 @@ export default class Autocomplete extends Component {
 		enterKeys: [],
 		children: <input />,
 		saveOnBlur: false,
+		// filterSuggestions(value, suggestionLabel, tags)
+		// 		`value` is from user input (string)
+		// 		`suggestionLabel` is the label property of a suggestion object (string); the function iterates over this value
+		// 		`tags` is the tags array (array)
+		// if function evaluates to true, then the `suggestionLabel` is shown
+		filterSuggestion: ()=>true,
 		onKeyUp: ()=>{},
 		onKeyDown: ()=>{},
 		onAdd: ()=>{},
@@ -113,7 +120,7 @@ export default class Autocomplete extends Component {
 	}
 
 	render() {
-		const { className, children, onKeyUp, customLoader, loaderPosition, loader } = this.props
+		const { className, children, onKeyUp, customLoader, loaderPosition, loader, filterSuggestion } = this.props
 		const { tags, value, suggestions, focusedSuggestion, input } = this.state
 		return (
 			<div>
@@ -140,7 +147,7 @@ export default class Autocomplete extends Component {
 									value={value}
 								/>
 							</div>
-							<Suggestions suggestions={suggestions} onClick={this.onClickSuggestion} focused={focusedSuggestion} />
+							<Suggestions suggestions={suggestions} onClick={this.onClickSuggestion} focused={focusedSuggestion} filterSuggestion={filterSuggestion} tags={tags} value={value} />
 						</div>
 						{loader && loaderPosition === 'bottom' && customLoader}
 					</div>
