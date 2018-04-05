@@ -61,7 +61,7 @@ export default class Autocomplete extends Component {
 		enterKeys: [],
 		children: <input />,
 		saveOnBlur: false,
-		// filterSuggestions(value, suggestionLabel, tags)
+		// filterSuggestion(value, suggestionLabel, tags)
 		// 		`value` is from user input (string)
 		// 		`suggestionLabel` is the label property of a suggestion object (string); the function iterates over this value
 		// 		`tags` is the tags array (array)
