@@ -23,7 +23,7 @@ export default class Suggestions extends PureComponent {
 		),
 		onClick: PropTypes.func,
 		focused: PropTypes.number,
-		filterSuggestion: PropTypes.func,
+		sortSuggestion: PropTypes.func,
 		value: PropTypes.string,
 	}
 
@@ -32,7 +32,7 @@ export default class Suggestions extends PureComponent {
 		tags: [],
 		suggestions: [],
 		onClick: ()=>{},
-		filterSuggestion: ()=>true,
+		sortSuggestion: ()=>true,
 		value: '',
 	}
 
@@ -41,14 +41,14 @@ export default class Suggestions extends PureComponent {
 	}
 
 	render() {
-		const { className, suggestions, filterSuggestion, tags, value } = this.props
+		const { className, suggestions, sortSuggestion, tags, value } = this.props
 
 		//Loader?
 		if(!suggestions || !suggestions.length) return null
 
-		//Filter suggestions
-		const filteredSuggestions = suggestions.filter(sugg => {
-			if(filterSuggestion(value, sugg.label, tags)) {
+		//Sorted suggestions
+		const sortedSuggestions = suggestions.sort((suggA, suggB) => {
+			if(sortSuggestion(suggA.label, suggB.label)) {
 				return true
 			}
 		})
@@ -56,7 +56,7 @@ export default class Suggestions extends PureComponent {
 		return (
 			<div className={`${styles.dropdown} ${className}`}>
 				<ul className={styles.suggestions}>
-					{this._renderSuggestions(filteredSuggestions)}
+					{this._renderSuggestions(sortedSuggestions)}
 				</ul>
 			</div>
 		)
