@@ -66,7 +66,12 @@ export default class Autocomplete extends Component {
 		// 		`suggestionLabel` is the label property of a suggestion object (string); the function iterates over this value
 		// 		`tags` is the tags array (array)
 		// if function evaluates to true, then the `suggestionLabel` is shown
-		filterSuggestion: ()=>true,
+		// filterSuggestion: ()=>true,
+		filterSuggestion: (v, s) => {
+			if (s.toLowerCase().indexOf(v.toLowerCase()) !== -1) {
+				return true;
+			}
+		},
 		onKeyUp: ()=>{},
 		onKeyDown: ()=>{},
 		onAdd: ()=>{},

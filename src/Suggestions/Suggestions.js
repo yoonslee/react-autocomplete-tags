@@ -53,6 +53,9 @@ export default class Suggestions extends PureComponent {
 			}
 		})
 
+		// If filtered suggestions length is 0, then do not render a dropdown
+		if(!filteredSuggestions.length) return null
+
 		return (
 			<div className={`${styles.dropdown} ${className}`}>
 				<ul className={styles.suggestions}>
